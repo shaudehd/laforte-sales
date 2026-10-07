@@ -335,7 +335,6 @@ const MENU=[
     {id:"files",label:"자료실",icon:"folder"},
     {id:"pledge",label:"근무이행각서",icon:"doc"},
     {id:"attend",label:"출근체크",icon:"clock"},
-    {id:"press",label:"언론보도",icon:"news"},
     {id:"log",label:"업무일지",icon:"check"},
     {id:"org",label:"조직도",icon:"org"}]},
   {group:"관리",items:[
@@ -351,7 +350,6 @@ const ICONS={
   folder:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2.5h8a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>',
   doc:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l5 5v15H6Z"/><path d="M15 2v5h5M9 13l2 2 4-4"/></svg>',
   clock:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>',
-  news:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h13v15H6a2 2 0 0 1-2-2Z"/><path d="M17 8h3v10a2 2 0 0 1-2 2M7 9h7M7 13h7M7 17h4"/></svg>',
   check:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="m8.5 12 2 2 4.5-4.5"/></svg>',
   org:'<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="4" rx="1"/><rect x="3" y="17" width="6" height="4" rx="1"/><rect x="15" y="17" width="6" height="4" rx="1"/><path d="M12 7v5M6 17v-3h12v3M12 12v2"/></svg>'
 };
@@ -376,18 +374,7 @@ const db={
     {t:"15:00",name:"정하윤",phone:"01033880264",unit:"102동 705호",state:"노쇼",memo:"",team:"3팀",by:"하지원",date:"10-07",read:true},
     {t:"16:30",name:"최은우",phone:"01055463719",unit:"101동 502호",state:"예정",memo:"부부 동반 방문",team:"4팀",by:"이서연",date:"10-07",read:true}
   ],
-  notices:[
-    {tag:"긴급",title:"[필독] 10월 세미나 참여 및 조기수당 지급 기준 변경 안내",date:"10-07",writer:"관리자",open:true,
-     body:"10월 15일(목) 17시 본사 세미나는 전원 참여 필수입니다.\n이번 세미나부터 미참석 시 조기수당 지급 기준이 배제되므로 각 팀장님께서 팀원 전달을 부탁드립니다.\n세미나 자료는 자료실에서 미리 확인 바랍니다."},
-    {tag:"일반",title:"층별도면 시스템 정기점검 안내 (10/09 02:00~04:00)",date:"10-06",writer:"전산팀",open:false,
-     body:"해당 시간 동안 층별도면 및 호실 상태 변경이 일시 중단됩니다.\n점검 시간 전에 호실 상태를 미리 저장해 주세요."},
-    {tag:"일반",title:"신규 계약서 서식 v3.2 배포 — 자료실 확인",date:"10-02",writer:"법무팀",open:false,
-     body:"10월 6일부터 신규 계약 건은 v3.2 서식만 인정됩니다.\n기존 v3.1 서식은 폐기 처리 바랍니다."},
-    {tag:"일반",title:"고객 주차권 배부 기준 안내",date:"09-28",writer:"관리처",open:false,
-     body:"방문 고객 1팀당 최대 2시간 주차권이 제공되며, 팀장 재가 시 추가 발급 가능합니다."},
-    {tag:"일반",title:"9월 우수 영업사원 시상 결과",date:"09-25",writer:"운영지원팀",open:false,
-     body:"4팀 이서연 님이 9월 우수 영업사원으로 선정되었습니다. 축하드립니다."}
-  ],
+  notices:[],
   cards:[
     {name:"한상우",co:"안성 토건",job:"현장소장",phone:"01028831120",tags:["협력사","101동"],c:"#0EA5E9"},
     {name:"문예진",co:"KB부동산 창원점",job:"마케팅팀장",phone:"01077120436",tags:["제휴"],c:"#18A05E"},
@@ -400,12 +387,6 @@ const db={
     {name:"윤서아",t:"11:40",src:"현수막",agent:"김민준",state:"계약"},
     {name:"임태윤",t:"10:15",src:"방문 경로",agent:"이서연",state:"보류"}
   ],
-  press:[
-    {title:"안성 공도지구 일대 재개발 속도…아파트 수요 몰릴 전망",src:"경기신문",date:"10-06"},
-    {title:"공도 라포르테, 입주율 92% 돌파 — 상권 확장 기대",src:"안성신문",date:"09-29"},
-    {title:"[분양 소식] 102동 저층 한정 분양가 혜택 진행",src:"부동산저널",date:"09-21"},
-    {title:"노후 상권 재정비 사업 공청회 개최…지자체 발표",src:"KBS창원",date:"09-14"}
-  ],
   logs:[
     {date:"10-07",writer:"노명수",team:"4팀",title:"전화상담 23건 · 방문 5팀 · 계약 1건",
      stats:{c:23,v:5,d:1},read:false,
@@ -417,13 +398,7 @@ const db={
      stats:{c:12,v:3,d:0},read:true,
      body:"방문 경로 유입이 많았음. 현수막 공도 교차로 위치 반응 좋음. 리플렛 200부 추가 인쇄 요청."}
   ],
-  files:[
-    {name:"2026_10_분양가_가격표.pdf",type:"PDF",size:"1.2MB",date:"10-05"},
-    {name:"계약표준양식_v3.2.docx",type:"DOC",size:"88KB",date:"10-02"},
-    {name:"고객관리_엑셀양식.xlsx",type:"XLS",size:"156KB",date:"09-28"},
-    {name:"영업매뉴얼_2026.pdf",type:"PDF",size:"4.8MB",date:"09-15"},
-    {name:"층별_면적_상세표.xlsx",type:"XLS",size:"210KB",date:"09-08"}
-  ],
+  files:[],
   pledges:[
     {month:"2026년 10월",status:"서명완료",date:"10-02"},
     {month:"2026년 9월",status:"서명완료",date:"09-01"},
@@ -456,7 +431,7 @@ const LS_KEY="gongdo_forte_v2",SESS_KEY="gongdo_forte_sess";
 function saveSess(id){try{id?localStorage.setItem(SESS_KEY,id):localStorage.removeItem(SESS_KEY)}catch(e){}}
 function save(){try{localStorage.setItem(LS_KEY,JSON.stringify({
   accounts:MEMBERS,requests,unitChecks:db.unitChecks,dir:db.dir,
-  reservations:db.reservations,walkins:db.walkins,logs:db.logs,pledges:db.pledges,attendance:db.attendance,attLog:db.attLog,wifi:db.wifi,officeIp:db.officeIp,
+  reservations:db.reservations,walkins:db.walkins,logs:db.logs,pledges:db.pledges,notices:db.notices,files:db.files,attendance:db.attendance,attLog:db.attLog,wifi:db.wifi,officeIp:db.officeIp,
   sess:session.user?session.user.id:null}))}catch(e){}}
 function load(){try{
   const s=JSON.parse(localStorage.getItem(LS_KEY)||"null");if(!s)return;
@@ -468,6 +443,8 @@ function load(){try{
   if(s.walkins)db.walkins=s.walkins;
   if(s.logs)db.logs=s.logs;
   if(s.pledges)db.pledges=s.pledges;
+  if(Array.isArray(s.notices))db.notices=s.notices;
+  if(Array.isArray(s.files))db.files=s.files;
   if(s.attendance)db.attendance=s.attendance;
   if(Array.isArray(s.attLog))db.attLog=s.attLog;
   if(s.officeIp)db.officeIp=s.officeIp;
@@ -499,7 +476,7 @@ function toggleDrawer(on){$("#drawer").classList.toggle("on",on);$("#scrim").cla
 const SUBS={dashboard:"실시간 영업 현황",floorplan:"탭하여 가계약·계약·완료 처리",reserve:"오늘의 방문 고객 일정",
   cards:"파트너·고객 명함 관리",walkin:"방문 없이 들어온 고객 등록",notice:"전 직원 공지를 확인하세요",
   files:"영업 자료를 내려받으세요",pledge:"월간 근무이행각서 서명",attend:"오늘 출근을 체크하세요",
-  press:"언론에 보도된 소식 모음",log:"하루 업무를 기록하세요",org:"영업본부 · 15개 팀 구조"};
+  log:"하루 업무를 기록하세요",org:"영업본부 · 15개 팀 구조"};
 function go(id){
   if(id==="members"&&!session.master){toast("마스터만 접근할 수 있어요");id="dashboard"}
   renderPage(id);
@@ -524,7 +501,6 @@ function renderPage(id){
   else if(id==="files")m.innerHTML=pgFiles();
   else if(id==="pledge"){m.innerHTML=pgPledge();bindPledge()}
   else if(id==="attend"){m.innerHTML=pgAttend();bindAttend()}
-  else if(id==="press")m.innerHTML=pgPress();
   else if(id==="log"){m.innerHTML=pgLog();bindLog()}
   else if(id==="org"){m.innerHTML=pgOrg();bindOrg()}
   else if(id==="members"){m.innerHTML=pgMembers();bindMembers()}
@@ -1074,21 +1050,6 @@ function bindAttend(){
   };
 }
 
-/* ── 언론보도 ── */
-function pgPress(){
-  return `
-  ${head("언론보도",SUBS.press)}
-  <div class="card list-card">
-    ${db.press.map(p=>`
-      <div class="person">
-        <div class="avatar" style="background:linear-gradient(135deg,#232A5E,#0EA5E9);font-size:11px">언론</div>
-        <div class="info"><b style="font-size:13px;font-weight:700;line-height:1.4">${esc(p.title)}</b><span class="co">${esc(p.src)} · ${p.date}</span></div>
-        <button class="tel" onclick="toast('원문 링크는 데모에서 제외했어요')" aria-label="원문 보기">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
-        </button>
-      </div>`).join("")}
-  </div>`;
-}
 
 /* ── 업무일지(마스터 취합) ── */
 function visibleLogs(){return session.master?db.logs:db.logs.filter(l=>l.team===(session.user&&session.user.team))}
