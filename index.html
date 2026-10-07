@@ -1376,6 +1376,8 @@ if(session.user)login(session.user,true);
 else renderLogin();
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();window._iP=e;const b=document.getElementById("installBtn");if(b)b.style.display="block"});
 window.addEventListener("appinstalled",()=>{const b=document.getElementById("installBtn");if(b)b.style.display="none"});
+/* 서비스워커 등록 — 안드로이드가 진짜 앱 패키지(웹앱)로 설치하게 해 아이콘의 크롬 배지를 없앰 */
+if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script>
 </body>
 </html>
