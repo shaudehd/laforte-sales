@@ -452,7 +452,8 @@ let requests=[
 const pendingCount=()=>requests.filter(r=>r.status==="대기").length;
 
 /* ── 영속화: 승인 한 번이면 계속 접속 ── */
-const LS_KEY="gongdo_forte_v2";
+const LS_KEY="gongdo_forte_v2",SESS_KEY="gongdo_forte_sess";
+function saveSess(id){try{id?localStorage.setItem(SESS_KEY,id):localStorage.removeItem(SESS_KEY)}catch(e){}}
 function save(){try{localStorage.setItem(LS_KEY,JSON.stringify({
   accounts:MEMBERS,requests,unitChecks:db.unitChecks,dir:db.dir,
   reservations:db.reservations,walkins:db.walkins,logs:db.logs,pledges:db.pledges,attendance:db.attendance,attLog:db.attLog,wifi:db.wifi,officeIp:db.officeIp,
@@ -471,7 +472,9 @@ function load(){try{
   if(Array.isArray(s.attLog))db.attLog=s.attLog;
   if(s.officeIp)db.officeIp=s.officeIp;
   if(Array.isArray(s.wifi)&&s.wifi.length)db.wifi=s.wifi;
-  if(s.sess)session.user=MEMBERS.find(m=>m.id===s.sess&&m.status!=="blocked")||null;
+  const sid=(()=>{try{return localStorage.getItem(SESS_KEY)}catch(e){return null}})();
+  if(sid){const m=MEMBERS.find(x=>x.id===sid&&x.status==="approved");
+    if(m)session.user=m;else saveSess(null)}
 }catch(e){}}
 function resetDemo(){try{localStorage.removeItem(LS_KEY)}catch(e){}location.reload()}
 
@@ -1223,10 +1226,10 @@ function pgMembers(){
       <div class="person">
         <div class="avatar" style="background:${mm.status==="approved"?"#0EA5E9":"#8A93B2"}">${mm.name[0]}</div>
         <div class="info"><b>${esc(mm.name)}</b><span class="co">${esc(mm.team)} · ${esc(mm.role)} · ${esc(mm.id)}</span></div>
-        <button class="chip ${mm.status==="approved"?"hold":"ok"}" data-blk="${esc(mm.id)}">${mm.status==="approved"?"접속차단":"차단해제"}</button>
+        <div style="display:flex;gap:5px;flex:none"><button class="chip ${mm.status==="approved"?"hold":"ok"}" data-blk="${esc(mm.id)}">${mm.status==="approved"?"접속차단":"차단해제"}</button><button class="chip bad" data-rm="${esc(mm.id)}">삭제</button></div>
       </div>`).join("")}
   </div>
-  <p style="font-size:11px;color:var(--sub);margin-top:9px;text-align:center">차단된 계정은 로그인이 막히고, 해제하면 다시 접속할 수 있어요</p>
+  <p style="font-size:11px;color:var(--sub);margin-top:9px;text-align:center">차단·삭제된 계정은 즉시 접속이 막혀요 · 승인된 계정은 로그아웃 전까지 로그인 상태가 유지돼요</p>
   <button class="btn ghost wide" style="margin-top:13px" onclick="resetDemo()">데모 데이터 초기화 (처음 상태로)</button>`;
 }
 function bindMembers(){
@@ -1245,6 +1248,12 @@ function bindMembers(){
     const mm=MEMBERS.find(x=>x.id===b.dataset.blk);
     mm.status=mm.status==="approved"?"blocked":"approved";
     save();go("members");toast(mm.status==="approved"?`${mm.name}님 차단을 해제했어요`:`${mm.name}님 접속을 차단했어요`);
+  });
+  $$("[data-rm]").forEach(b=>b.onclick=()=>{
+    const mm=MEMBERS.find(x=>x.id===b.dataset.rm);
+    if(!confirm(`${mm.name}님 계정을 삭제할까요?\n삭제된 아이디로는 다시 로그인할 수 없어요`))return;
+    MEMBERS.splice(MEMBERS.indexOf(mm),1);
+    save();buildDrawer();go("members");toast(`${mm.name}님 계정을 삭제했어요`);
   });
 }
 
@@ -1283,7 +1292,7 @@ function doLogin(){
   login(m);
 }
 function login(m,silent){
-  session.user=m;session.master=m.role==="마스터";
+  session.user=m;session.master=m.role==="마스터";saveSess(m.id);
   $("#loginView").classList.add("off");
   $("#footAvatar").textContent=m.name[0];
   $("#footName").textContent=`${m.name} ${m.role==="마스터"?"마스터":m.role}`;
@@ -1292,7 +1301,7 @@ function login(m,silent){
   if(!silent)toast(`${m.name}님, 환영해요`);
 }
 function logout(){
-  session.user=null;session.master=false;
+  session.user=null;session.master=false;saveSess(null);
   toggleDrawer(false);closeModal();save();
   renderLogin("로그아웃되었어요");
 }
@@ -1374,6 +1383,12 @@ function saveWifi(){
 load();
 if(session.user)login(session.user,true);
 else renderLogin();
+/* 로그인 유지: 스스로 로그아웃하거나 마스터에게 차단·삭제될 때까지 세션 유지 */
+document.addEventListener("visibilitychange",()=>{
+  if(document.visibilityState!=="visible"||!session.user)return;
+  const m=MEMBERS.find(x=>x.id===session.user.id);
+  if(!m||m.status!=="approved"){session.user=null;session.master=false;saveSess(null);toggleDrawer(false);renderLogin("계정 상태가 변경되어 다시 로그인이 필요해요")}
+});
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();window._iP=e;const b=document.getElementById("installBtn");if(b)b.style.display="block"});
 window.addEventListener("appinstalled",()=>{const b=document.getElementById("installBtn");if(b)b.style.display="none"});
 /* 서비스워커 등록 — 안드로이드가 진짜 앱 패키지(웹앱)로 설치하게 해 아이콘의 크롬 배지를 없앰 */
